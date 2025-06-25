@@ -29,7 +29,6 @@ with st.form("input_form"):
     submit = st.form_submit_button("Predict")
 
 if submit:
-    # Prepare feature input
     X_input = pd.DataFrame([[tsize, tgrade, pnodes, progrec]], columns=feature_names)
     years = [1, 2, 3]
     if hasattr(model, "predict_survival_function"):
@@ -45,12 +44,13 @@ if submit:
         for i, r in enumerate(risks):
             ax.text(i, r + 0.03, f"{r:.1%}", ha="center", fontsize=13)
         st.pyplot(fig)
-        # Correct info string for blue box
-        info_str = "Recurrence risk probabilities\n"
+        # Info string as you requested
+        info_str = ""
         for y, r in zip(years, risks):
-            info_str += f"{y} year: {r:.1%}\n"
+            info_str += f"Recurrence risk probabilities {y} year: {r:.1%}\n"
         st.info(info_str)
     else:
         st.error("The model does not support survival probability prediction. Please check your model or training method.")
+
 
 
