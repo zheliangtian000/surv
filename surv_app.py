@@ -11,7 +11,7 @@ st.write("**输入患者特征，预测1/2/3年复发概率（随机生存森林
 # 加载模型
 @st.cache_resource
 def load_model():
-    return joblib.load("outputs/models/RandomForest.joblib")
+    return joblib.load("RandomForest.joblib")
 model = load_model()
 
 # 定义特征顺序，必须和训练时一致
