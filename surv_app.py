@@ -29,14 +29,14 @@ with st.form("input_form"):
     submit = st.form_submit_button("Predict")
 
 if submit:
-    # 组装特征表
+    # Prepare feature input
     X_input = pd.DataFrame([[tsize, tgrade, pnodes, progrec]], columns=feature_names)
     years = [1, 2, 3]
     if hasattr(model, "predict_survival_function"):
         surv_fn = model.predict_survival_function(X_input)[0]
         surv_probs = [surv_fn(t) for t in years]
         risks = [1 - p for p in surv_probs]
-        # 柱状图
+        # Bar chart
         fig, ax = plt.subplots()
         ax.bar([f"{y} year" for y in years], risks, color='tomato')
         ax.set_ylabel("Recurrence Risk Probability")
@@ -45,8 +45,11 @@ if submit:
         for i, r in enumerate(risks):
             ax.text(i, r + 0.03, f"{r:.1%}", ha="center", fontsize=13)
         st.pyplot(fig)
-        # 展示文字
-        st.info("Recurrence risk probabilities:")
-        st.write({f"{y} year": f"{r:.1%}" for y, r in zip(years, risks)})
+        # Show info box with all results in one place
+        info_str = "Recurrence risk probabilities:\n"
+        for y, r in zip(years, risks):
+            info_str += f"{y} year: {r:.1%}\n"
+        st.info(info_str)
     else:
         st.error("The model does not support survival probability prediction. Please check your model or training method.")
+
