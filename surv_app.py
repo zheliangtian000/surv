@@ -45,11 +45,12 @@ if submit:
         for i, r in enumerate(risks):
             ax.text(i, r + 0.03, f"{r:.1%}", ha="center", fontsize=13)
         st.pyplot(fig)
-        # Show info box with all results in one place
-        info_str = "Recurrence risk probabilities:\n"
+        # Correct info string for blue box
+        info_str = "Recurrence risk probabilities\n"
         for y, r in zip(years, risks):
             info_str += f"{y} year: {r:.1%}\n"
         st.info(info_str)
     else:
         st.error("The model does not support survival probability prediction. Please check your model or training method.")
+
 
