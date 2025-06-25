@@ -35,7 +35,7 @@ if submit:
         surv_fn = model.predict_survival_function(X_input)[0]
         surv_probs = [surv_fn(t) for t in years]
         risks = [1 - p for p in surv_probs]
-        # Bar chart
+        # 柱状图
         fig, ax = plt.subplots()
         ax.bar([f"{y} year" for y in years], risks, color='tomato')
         ax.set_ylabel("Recurrence Risk Probability")
@@ -44,10 +44,10 @@ if submit:
         for i, r in enumerate(risks):
             ax.text(i, r + 0.03, f"{r:.1%}", ha="center", fontsize=13)
         st.pyplot(fig)
-        # Info string as you requested
+        # 正确换行
         info_str = ""
         for y, r in zip(years, risks):
-            info_str += f"Recurrence risk probabilities {y} year: {r:.1%}\n"
+            info_str += f"Recurrence risk probabilities {y} year: {r:.1%}  \n"
         st.info(info_str)
     else:
         st.error("The model does not support survival probability prediction. Please check your model or training method.")
